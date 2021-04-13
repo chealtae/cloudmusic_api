@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.music.demo.dao.UserinfoDao">
+  <resultMap id="BaseResultMap" type="com.music.demo.domain.Userinfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="isLocked" jdbcType="INTEGER" property="islocked" />
+    <result column="isDelect" jdbcType="INTEGER" property="isdelect" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="nickName" jdbcType="VARCHAR" property="nickname" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, isLocked, isDelect, image, nickName, sex, region, introduction, userName, `password`, 
+    `status`, message
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.music.demo.domain.Userinfo" useGeneratedKeys="true">
+    insert into userinfo (isLocked, isDelect, image, 
+      nickName, sex, region, 
+      introduction, userName, `password`, 
+      `status`, message)
+    values (#{islocked,jdbcType=INTEGER}, #{isdelect,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{region,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.music.demo.domain.Userinfo" useGeneratedKeys="true">
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="islocked != null">
+        isLocked,
+      </if>
+      <if test="isdelect != null">
+        isDelect,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="nickname != null">
+        nickName,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="message != null">
+        message,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="islocked != null">
+        #{islocked,jdbcType=INTEGER},
+      </if>
+      <if test="isdelect != null">
+        #{isdelect,jdbcType=INTEGER},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.music.demo.domain.Userinfo">
+    update userinfo
+    <set>
+      <if test="islocked != null">
+        isLocked = #{islocked,jdbcType=INTEGER},
+      </if>
+      <if test="isdelect != null">
+        isDelect = #{isdelect,jdbcType=INTEGER},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.music.demo.domain.Userinfo">
+    update userinfo
+    set isLocked = #{islocked,jdbcType=INTEGER},
+      isDelect = #{isdelect,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      nickName = #{nickname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      region = #{region,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="verifyPassword" resultMap="BaseResultMap">
+    select * from userinfo where userName = #{username,jdbcType = VARCHAR} and password = #{password,jdbcType = VARCHAR}
+  </select>
+  <insert id="createUser">
+    insert into userinfo (userName, password) values (#{username},#{password})
+  </insert>
+</mapper>
