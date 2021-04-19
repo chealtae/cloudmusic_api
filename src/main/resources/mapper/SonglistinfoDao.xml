@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.music.demo.dao.SonglistinfoDao">
+  <resultMap id="BaseResultMap" type="com.music.demo.domain.Songlistinfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="isLocked" jdbcType="INTEGER" property="islocked" />
+    <result column="isDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="totalPlay" jdbcType="VARCHAR" property="totalplay" />
+    <result column="totalCollect" jdbcType="VARCHAR" property="totalcollect" />
+    <result column="totalShare" jdbcType="VARCHAR" property="totalshare" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, createTime, modifyTime, isLocked, isDeleted, userId, `name`, image, introduction, 
+    totalPlay, totalCollect, totalShare
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from songlistinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from songlistinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.music.demo.domain.Songlistinfo" useGeneratedKeys="true">
+    insert into songlistinfo (createTime, modifyTime, isLocked, 
+      isDeleted, userId, `name`, 
+      image, introduction, totalPlay, 
+      totalCollect, totalShare)
+    values (#{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, #{islocked,jdbcType=INTEGER}, 
+      #{isdeleted,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{totalplay,jdbcType=VARCHAR}, 
+      #{totalcollect,jdbcType=VARCHAR}, #{totalshare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.music.demo.domain.Songlistinfo" useGeneratedKeys="true">
+    insert into songlistinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="modifytime != null">
+        modifyTime,
+      </if>
+      <if test="islocked != null">
+        isLocked,
+      </if>
+      <if test="isdeleted != null">
+        isDeleted,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="totalplay != null">
+        totalPlay,
+      </if>
+      <if test="totalcollect != null">
+        totalCollect,
+      </if>
+      <if test="totalshare != null">
+        totalShare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islocked != null">
+        #{islocked,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="totalplay != null">
+        #{totalplay,jdbcType=VARCHAR},
+      </if>
+      <if test="totalcollect != null">
+        #{totalcollect,jdbcType=VARCHAR},
+      </if>
+      <if test="totalshare != null">
+        #{totalshare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.music.demo.domain.Songlistinfo">
+    update songlistinfo
+    <set>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islocked != null">
+        isLocked = #{islocked,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        isDeleted = #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="totalplay != null">
+        totalPlay = #{totalplay,jdbcType=VARCHAR},
+      </if>
+      <if test="totalcollect != null">
+        totalCollect = #{totalcollect,jdbcType=VARCHAR},
+      </if>
+      <if test="totalshare != null">
+        totalShare = #{totalshare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.music.demo.domain.Songlistinfo">
+    update songlistinfo
+    set createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      isLocked = #{islocked,jdbcType=INTEGER},
+      isDeleted = #{isdeleted,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=INTEGER},
+      `name` = #{name,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      totalPlay = #{totalplay,jdbcType=VARCHAR},
+      totalCollect = #{totalcollect,jdbcType=VARCHAR},
+      totalShare = #{totalshare,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
