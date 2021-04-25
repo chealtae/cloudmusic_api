@@ -54,4 +54,14 @@ public class UserController {
         }
         return jsonObject;
     }
+
+    @GetMapping("/getUserInfo")
+    public  JSONObject getUserInfo(Integer userId){
+        JSONObject jsonObject = new JSONObject();
+        Userinfo userinfo = userinfoDao.selectByPrimaryKey(userId);
+        jsonObject.put("userInfo",userinfo);
+        jsonObject.put("success",true);
+        jsonObject.put("message","获取用户信息成功");
+        return jsonObject;
+    }
 }

@@ -166,4 +166,10 @@
       totalShare = #{totalshare,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getCreateList"  resultType="com.music.demo.domain.Songlistinfo">
+    select * from songlistinfo where userId = #{userId}
+  </select>
+  <insert id="createNewList">
+    insert into songListinfo (userId,name) value (#{id},#{listName})
+  </insert>
 </mapper>
