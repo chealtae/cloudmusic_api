@@ -56,4 +56,25 @@ public class SonglistInfoController {
         }
         return jsonObject;
     }
+
+    @PostMapping("/getCollectList")
+    public Map<String,Object> getCollectList(@RequestBody HashMap map){
+        JSONObject jsonObject = new JSONObject();
+        int userId = (int) map.get("userId");
+        List<Songlistinfo> listinfo = songlistinfoDao.getCollectList(userId);
+        jsonObject.put("listid",listinfo);
+        jsonObject.put("success",true);
+        jsonObject.put("message","查询成功");
+        return jsonObject;
+    }
+
+    @GetMapping("/getSongListInfo")
+    public Map<String,Object> getSonglistInfo(Integer listId){
+        JSONObject jsonObject = new JSONObject();
+        Songlistinfo res = songlistinfoDao.selectByPrimaryKey(listId);
+        jsonObject.put("playListDeatils",res);
+        jsonObject.put("success",true);
+        jsonObject.put("message","查询成功");
+        return jsonObject;
+    }
 }

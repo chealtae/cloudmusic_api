@@ -23,4 +23,6 @@ public interface SonglistinfoDao {
     List<Songlistinfo> getCreateList(Integer id);
 
     int createNewList(Integer id,String listName);
+
+    List<Songlistinfo> getCollectList(Integer id);
 }

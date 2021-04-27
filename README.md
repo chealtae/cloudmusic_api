@@ -13,13 +13,13 @@
 
 获取用户创建的歌单  /SongListInfo/getCreateList
 
-获取用户收藏的歌单列表 /SongListInfo/getcollectList
+获取用户收藏的歌单列表 /SongListInfo/getCollectList
 
 删除用户创建的歌单 /SongListInfo/deleteSongList
 
-取消收藏歌单 /SongListInfo/cancelCollectList
+取消收藏歌单 /Operation/cancelCollectList
 
-
+获取歌单信息 /Operation/getSongListInfo
 
 
 

@@ -167,9 +167,12 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="getCreateList"  resultType="com.music.demo.domain.Songlistinfo">
-    select * from songlistinfo where userId = #{userId}
+    select * from songlistinfo where userId = #{id}
   </select>
   <insert id="createNewList">
     insert into songListinfo (userId,name) value (#{id},#{listName})
   </insert>
+  <select id="getCollectList" resultType="com.music.demo.domain.Songlistinfo">
+    SELECT songlistinfo.* FROM `songlistinfo` inner join `operation` on operation.typeId = songlistinfo.id WHERE operation.userId = #{id} and operation.type = 0 AND operation.collectType = 2
+  </select>
 </mapper>

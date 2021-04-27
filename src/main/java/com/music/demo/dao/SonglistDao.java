@@ -1,7 +1,9 @@
 package com.music.demo.dao;
 
 import com.music.demo.domain.Songlist;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SonglistDao {
     int deleteByPrimaryKey(Integer id);
 
