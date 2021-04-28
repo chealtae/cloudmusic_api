@@ -175,4 +175,8 @@
   <select id="getCollectList" resultType="com.music.demo.domain.Songlistinfo">
     SELECT songlistinfo.* FROM `songlistinfo` inner join `operation` on operation.typeId = songlistinfo.id WHERE operation.userId = #{id} and operation.type = 0 AND operation.collectType = 2
   </select>
+  <select id="getSongList" resultType="com.music.demo.domain.Songinfo">
+    SELECT * from songinfo a LEFT JOIN
+    (SELECT songId from songlist WHERE type = 1 AND typeId = #{listId} ) AS b ON a.id = b.songId
+  </select>
 </mapper>

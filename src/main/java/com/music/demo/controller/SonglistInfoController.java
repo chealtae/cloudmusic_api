@@ -72,9 +72,12 @@ public class SonglistInfoController {
     public Map<String,Object> getSonglistInfo(Integer listId){
         JSONObject jsonObject = new JSONObject();
         Songlistinfo res = songlistinfoDao.selectByPrimaryKey(listId);
+        List<Songlistinfo> songRes = songlistinfoDao.getSongList(listId);
+
         jsonObject.put("playListDeatils",res);
         jsonObject.put("success",true);
         jsonObject.put("message","查询成功");
+        jsonObject.put("songList",songRes);
         return jsonObject;
     }
 }
