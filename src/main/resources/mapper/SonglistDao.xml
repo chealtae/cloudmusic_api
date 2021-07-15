@@ -108,4 +108,14 @@
       songId = #{songid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="addToList">
+    insert into songList (type,typeId,songId) values (1,#{id},#{songId});
+  </insert>
+  <insert id="addToAlbum">
+    insert into songList (type,typeId,songId) values (0,#{id},#{songId});
+  </insert>
+  <delete id="removeFromList">
+    delete from songlist
+    where typeId = #{id} and type = 1 and songId = #{songId}
+  </delete>
 </mapper>

@@ -16,4 +16,11 @@ public interface SonglistDao {
     int updateByPrimaryKeySelective(Songlist record);
 
     int updateByPrimaryKey(Songlist record);
+
+    int addToList (Integer id, Integer songId);
+
+    int addToAlbum(Integer id, Integer songId);
+
+    int removeFromList (Integer id, Integer songId);
+
 }

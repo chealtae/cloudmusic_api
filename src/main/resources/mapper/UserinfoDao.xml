@@ -167,9 +167,55 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="verifyPassword" resultMap="BaseResultMap">
-    select * from userinfo where userName = #{username,jdbcType = VARCHAR} and password = #{password,jdbcType = VARCHAR}
+    select * from userinfo where userName = #{username,jdbcType = VARCHAR} and password = #{password,jdbcType = VARCHAR} and isLocked != 1
   </select>
   <insert id="createUser">
-    insert into userinfo (userName, password) values (#{username},#{password})
+    insert into userinfo (userName, password,nickName) values (#{username},#{password},#{nickName})
   </insert>
+  <select id="getBaseInfo" resultType="com.music.demo.domain.Userinfo">
+    select image,nickName from userinfo where id = #{id}
+  </select>
+  <select id="getAllInfo" resultType="com.music.demo.domain.Userinfo">
+    select id,image,nickName,sex,region,introduction from userinfo where id = #{id}
+  </select>
+  <update id="saveEdit">
+    update userInfo
+    <set>
+      <if test="nickname != null">
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR}
+      </if>
+    </set>
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="search" resultType="com.music.demo.domain.Userinfo">
+    select id,image,nickName from userinfo where nickName like Concat('%',#{ResKey},'%');
+  </select>
+  <select id="getAllUser" resultType="com.music.demo.domain.Userinfo">
+    select id,isLocked,nickName,userName from userinfo where status != 1 limit #{size} offset #{offset};
+  </select>
+  <select id="searchAllUser" resultType="com.music.demo.domain.Userinfo">
+    select id,isLocked,nickName,userName from userinfo where userName like Concat('%',#{ResKey},'%');
+  </select>
+  <select id="getFans" resultType="com.music.demo.domain.Userinfo">
+    SELECT userinfo.nickName ,userinfo.image, userinfo.id,userinfo.introduction FROM userinfo
+    INNER JOIN operation on userinfo.id = operation.typeId where operation.type = 1 and operation.followType =1 and operation.typeId = 2
+    limit 50 offset #{offset}
+  </select>
+  <select id="getFollow" resultType="com.music.demo.domain.Userinfo">
+    SELECT userinfo.nickName ,userinfo.image, userinfo.id,userinfo.introduction FROM userinfo
+    INNER JOIN operation on userinfo.id = operation.typeId where operation.type = 1 and operation.followType =1 and operation.userId = #{id}
+    limit 50 offset #{offset}
+  </select>
 </mapper>

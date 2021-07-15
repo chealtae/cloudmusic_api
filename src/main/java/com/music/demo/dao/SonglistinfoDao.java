@@ -1,5 +1,6 @@
 package com.music.demo.dao;
 
+import com.music.demo.domain.Songinfo;
 import com.music.demo.domain.Songlist;
 import com.music.demo.domain.Songlistinfo;
 import org.springframework.stereotype.Repository;
@@ -26,5 +27,23 @@ public interface SonglistinfoDao {
 
     List<Songlistinfo> getCollectList(Integer id);
 
-    List<Songlistinfo> getSongList(Integer listId);
+    List<Songinfo> getSongList(Integer listId);
+
+    List<Songinfo> getAlbumSongList(Integer listId);
+
+    List<Songlistinfo> getRecommendList();
+
+    int addCollect (Integer id);
+
+    int reduceCollect(Integer id);
+
+    List<Songlistinfo> search(String ResKey);
+
+    int saveEdit(Integer id,String name,String introduction,String image);
+
+    List<Songlistinfo> getListByTag(Integer tagId,Integer size,Integer offset);
+
+    Integer getListCount(Integer tagId);
+
+    int updateTotalPlay(Integer id);
 }

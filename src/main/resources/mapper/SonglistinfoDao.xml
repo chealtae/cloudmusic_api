@@ -176,7 +176,55 @@
     SELECT songlistinfo.* FROM `songlistinfo` inner join `operation` on operation.typeId = songlistinfo.id WHERE operation.userId = #{id} and operation.type = 0 AND operation.collectType = 2
   </select>
   <select id="getSongList" resultType="com.music.demo.domain.Songinfo">
-    SELECT * from songinfo a LEFT JOIN
-    (SELECT songId from songlist WHERE type = 1 AND typeId = #{listId} ) AS b ON a.id = b.songId
+    select songinfo.* ,albuminfo.id as albumId from songinfo
+	LEFT JOIN albuminfo on  songinfo.album = albuminfo.name
+    inner JOIN (SELECT songId from songlist WHERE type = 1 AND typeId = #{listId} ) AS b ON songinfo.id = b.songId
   </select>
+  <select id="getAlbumSongList" resultType="com.music.demo.domain.Songinfo">
+    select songinfo.* ,albuminfo.id as albumId from songinfo
+	LEFT JOIN albuminfo on  songinfo.album = albuminfo.name
+    inner JOIN (SELECT songId from songlist WHERE type = 1 AND typeId = #{listId} ) AS b ON songinfo.id = b.songId
+  </select>
+  <select id="getRecommendList" resultType="com.music.demo.domain.Songlistinfo">
+    select * from songlistinfo  ORDER  by RAND()limit 20;
+  </select>
+  <update id="addCollect">
+    update songlistinfo set totalCollect = totalCollect + 1 where id = #{id};
+  </update>
+  <update id="reduceCollect">
+    update songlistinfo set totalCollect = totalCollect -1 where id = #{id};
+  </update>
+  <select id="search" resultType="com.music.demo.domain.Songlistinfo">
+    select * from songlistinfo where Name like Concat('%',#{ResKey},'%');
+  </select>
+  <update id="saveEdit">
+    update songlistinfo
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getListByTag" resultType="com.music.demo.domain.Songlistinfo">
+    select songlistinfo.* from tag_link
+			INNER JOIN songlistinfo on songlistinfo.id = tag_link.typeId
+			INNER JOIN userinfo on songlistinfo.userId = userinfo.id
+			WHERE itemId = #{tagId} LIMIT #{size} OFFSET #{offset}
+  </select>
+  <select id="getListCount" resultType="java.lang.Integer">
+    select count(*) from tag_link
+			INNER JOIN songlistinfo on songlistinfo.id = tag_link.typeId
+			INNER JOIN userinfo on songlistinfo.userId = userinfo.id
+			WHERE itemId = #{tagId}
+  </select>
+  <update id="updateTotalPlay">
+    update songlistinfo set totalPlay = totalPlay + 1 where id = #{id};
+  </update>
 </mapper>

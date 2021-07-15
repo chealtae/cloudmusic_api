@@ -1,11 +1,14 @@
 package com.music.demo.domain;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * userinfo
  * @author 
  */
+@Data
 public class Userinfo implements Serializable {
     private Integer id;
 
@@ -36,6 +39,8 @@ public class Userinfo implements Serializable {
     private Integer status;
 
     private String message;
+
+    private Songlistinfo songlistinfo;
 
     private static final long serialVersionUID = 1L;
 

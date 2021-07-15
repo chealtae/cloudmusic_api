@@ -34,5 +34,9 @@ public class Songlistinfo implements Serializable {
 
     private String totalshare;
 
+    private Userinfo userinfo;
+
+
+
     private static final long serialVersionUID = 1L;
 }

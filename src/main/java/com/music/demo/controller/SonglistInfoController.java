@@ -1,8 +1,14 @@
 package com.music.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.music.demo.dao.OperationDao;
 import com.music.demo.dao.SonglistinfoDao;
+import com.music.demo.dao.TagLinkDao;
+import com.music.demo.dao.UserinfoDao;
+import com.music.demo.domain.Songinfo;
 import com.music.demo.domain.Songlistinfo;
+import com.music.demo.domain.TagLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +22,12 @@ import java.util.Map;
 public class SonglistInfoController {
     @Autowired
     private SonglistinfoDao  songlistinfoDao;
+    @Autowired
+    private UserinfoDao userinfoDao;
+    @Autowired
+    private TagLinkDao tagLinkDao;
+    @Autowired
+    private OperationDao operationDao;
 
     @PostMapping("/getCreateList")
     public Map<String,Object> getList(@RequestBody HashMap map){
@@ -68,16 +80,90 @@ public class SonglistInfoController {
         return jsonObject;
     }
 
-    @GetMapping("/getSongListInfo")
-    public Map<String,Object> getSonglistInfo(Integer listId){
+    @PostMapping("/getSongListInfo")
+    public Map<String,Object> getSonglistInfo(@RequestBody HashMap map){
         JSONObject jsonObject = new JSONObject();
+        Integer listId = (Integer) map.get("listId");
+        Integer userId = (Integer) map.get("userId");
         Songlistinfo res = songlistinfoDao.selectByPrimaryKey(listId);
-        List<Songlistinfo> songRes = songlistinfoDao.getSongList(listId);
+        List<Songinfo> songRes = songlistinfoDao.getSongList(listId);
+        //判断是否呗用户收藏
+        if(userId != -1){
+            for(Songinfo item:songRes){
+                item.setIsCollect(operationDao.judgeCollect(userId,0,0));
+            }
+        }
 
+        List<TagLink> tagRes = tagLinkDao.getListTag(listId);
+        res.setUserinfo(userinfoDao.getBaseInfo(res.getUserid()));
         jsonObject.put("playListDeatils",res);
         jsonObject.put("success",true);
         jsonObject.put("message","查询成功");
         jsonObject.put("songList",songRes);
+        jsonObject.put("tagRes",tagRes);
         return jsonObject;
+    }
+
+
+    //首页推荐
+    @GetMapping("/getRecommendList")
+    public Map<String,Object> getRecommendList(){
+        JSONObject jsonObject = new JSONObject();
+        List<Songlistinfo> songRes = songlistinfoDao.getRecommendList();
+        jsonObject.put("success",true);
+        jsonObject.put("message","查询成功");
+        jsonObject.put("songList",songRes);
+        return jsonObject;
+    }
+
+    @PostMapping("/saveEdit")
+    public Map<String ,Object> saveEdit(@RequestBody HashMap map){
+        JSONObject jsonObject = new JSONObject();
+        int id = (int) map.get("id");
+        String name = (String) map.get("name");
+        String image = (String) map.get("image");
+        String introduction = (String) map.get("introduction");
+        List<Integer> tags = (List<Integer>) map.get("tags");
+
+        //先删除后添加标签
+        tagLinkDao.deleteTagFromList(id);
+        for(Integer tagId : tags){
+            tagLinkDao.addTagToList(id,tagId);
+        }
+
+        int res = songlistinfoDao.saveEdit(id,name,introduction,image);
+        if(res == 1){
+            jsonObject.put("success",true);
+        } else {
+            jsonObject.put("success",false);
+        }
+        return jsonObject;
+    }
+
+    //通过标签获取列表
+    @PostMapping("/getListByTag")
+    public Map<String,Object> getListByTag(@RequestBody HashMap map){
+        JSONObject jsonObject = new JSONObject();
+        Integer tagId = (Integer) map.get("tagId");
+        Integer size = (Integer) map.get("size") ;
+        Integer offset = (Integer) map.get("offset") ;
+        List<Songlistinfo> listRes = songlistinfoDao.getListByTag(tagId,size,offset);
+        int count = songlistinfoDao.getListCount(tagId);
+        jsonObject.put("success",true);
+        jsonObject.put("message","查询成功");
+        jsonObject.put("songList",listRes);
+        jsonObject.put("count",count);
+        return jsonObject;
+    }
+
+    @GetMapping("/updateTotalPlay")
+    public JSONObject updateTotalPlay (Integer listId){
+        JSONObject jsonObject = new JSONObject();
+        int res = songlistinfoDao.updateTotalPlay(listId);
+        if(res == 1){
+            jsonObject.put("message","增加成功");
+            jsonObject.put("success",true);
+        }
+        return  jsonObject;
     }
 }
